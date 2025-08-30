@@ -13,10 +13,7 @@ function computeTotals(cart) {
 }
 
 export async function getCart(userId) {
-  let cart = await Cart.findOne({ userId }).populate({
-    path: 'items.productId',
-    select: 'title brand price images mainImage category active'
-  });
+  let cart = await Cart.findOne({ userId });
   if (!cart) cart = await Cart.create({ userId, items: [], totals: { subtotal: 0 } });
   return cart;
 }
@@ -24,52 +21,31 @@ export async function getCart(userId) {
 export async function addItem(userId, { productId, size, qty }) {
   const product = await Product.findById(productId).lean();
   if (!product) throw Object.assign(new Error('Product not found'), { status: 404, code: 'NOT_FOUND' });
-  let cart = await Cart.findOne({ userId });
-  if (!cart) cart = await Cart.create({ userId, items: [], totals: { subtotal: 0 } });
+  let cart = await getCart(userId);
   cart.items.push({ productId, size, qty, priceAtAdd: product.price });
   computeTotals(cart);
   await cart.save();
-  
-  // Return cart with populated product details
-  cart = await Cart.findOne({ userId }).populate({
-    path: 'items.productId',
-    select: 'title brand price images mainImage category active'
-  });
   return cart;
 }
 
 export async function updateItem(userId, itemId, { qty }) {
-  const cart = await Cart.findOne({ userId });
-  if (!cart) throw Object.assign(new Error('Cart not found'), { status: 404, code: 'NOT_FOUND' });
+  const cart = await getCart(userId);
   const item = cart.items.id(itemId);
   if (!item) throw Object.assign(new Error('Item not found'), { status: 404, code: 'NOT_FOUND' });
   item.qty = qty;
   computeTotals(cart);
   await cart.save();
-  
-  // Return cart with populated product details
-  const populatedCart = await Cart.findOne({ userId }).populate({
-    path: 'items.productId',
-    select: 'title brand price images mainImage category active'
-  });
-  return populatedCart;
+  return cart;
 }
 
 export async function removeItem(userId, itemId) {
-  const cart = await Cart.findOne({ userId });
-  if (!cart) return await Cart.create({ userId, items: [], totals: { subtotal: 0 } });
+  const cart = await getCart(userId);
   const item = cart.items.id(itemId);
   if (!item) return cart;
   item.deleteOne();
   computeTotals(cart);
   await cart.save();
-  
-  // Return cart with populated product details
-  const populatedCart = await Cart.findOne({ userId }).populate({
-    path: 'items.productId',
-    select: 'title brand price images mainImage category active'
-  });
-  return populatedCart;
+  return cart;
 }
 
 export async function checkout(user, shippingAddress) {

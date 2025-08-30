@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { authGuard } from '../../middlewares/authGuard.js';
 import { roleGuard } from '../../middlewares/roleGuard.js';
-import { createProduct, deleteProduct, getOrder, getOrders, getStats, getUsers, getUserDetails, getUserOrders, listProducts, patchInventory, patchOrder, patchUser, updateProduct } from './admin.controller.js';
+import { createProduct, deleteProduct, getOrder, getOrders, getStats, getUsers, listProducts, patchInventory, patchOrder, patchUser, updateProduct } from './admin.controller.js';
 import { validate } from '../../middlewares/validate.js';
 import { AdminSchemas } from './admin.dto.js';
 import { getRecentActivity, getOrdersTrend } from '../dashboard/dashboard.controller.js';
@@ -15,8 +15,6 @@ router.get('/orders-trend', getOrdersTrend);
 
 router.get('/stats', getStats);
 router.get('/users', getUsers);
-router.get('/users/:id', getUserDetails);
-router.get('/users/:id/orders', getUserOrders);
 router.patch('/users/:id', validate(AdminSchemas.patchUser), patchUser);
 
 router.get('/orders', validate(AdminSchemas.listOrders), getOrders);

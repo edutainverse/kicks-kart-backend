@@ -53,10 +53,7 @@ export async function login({ email, password }, res) {
   if (!ok) throw Object.assign(new Error('Invalid credentials'), { status: 401, code: 'AUTH_ERROR' });
 
   const payload = { sub: user._id.toString(), role: user.role, name: user.name, email: user.email };
-  
-  // Give admin users longer token duration (24 hours instead of 15 minutes)
-  const accessTokenTTL = user.role === 'admin' ? 1440 : env.ACCESS_TOKEN_TTL_MIN; // 1440 minutes = 24 hours
-  const accessToken = signAccess(payload, accessTokenTTL);
+  const accessToken = signAccess(payload);
   const refreshToken = signRefresh(payload);
   res.cookie('refresh_token', refreshToken, cookieOptions());
   // Return profile along with token
@@ -70,10 +67,7 @@ export async function refresh(req, res) {
   if (!token) throw Object.assign(new Error('Missing refresh token'), { status: 401, code: 'AUTH_ERROR' });
   try {
     const payload = verifyRefresh(token);
-    
-    // Give admin users longer token duration (24 hours instead of 15 minutes)
-    const accessTokenTTL = payload.role === 'admin' ? 1440 : env.ACCESS_TOKEN_TTL_MIN; // 1440 minutes = 24 hours
-    const accessToken = signAccess({ sub: payload.sub, role: payload.role, name: payload.name, email: payload.email }, accessTokenTTL);
+    const accessToken = signAccess({ sub: payload.sub, role: payload.role, name: payload.name, email: payload.email });
     return { accessToken };
   } catch {
     throw Object.assign(new Error('Invalid refresh token'), { status: 401, code: 'AUTH_ERROR' });
