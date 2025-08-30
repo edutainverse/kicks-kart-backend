@@ -107,7 +107,7 @@ app.use(
 app.get('/', (_req, res) => {
   res.json({
     status: 'ok',
-    message: 'KicksKart backend service is running.',
+    message: 'KicksKart backend service is running. 31080300',
     mongoHealthy
   });
 });
