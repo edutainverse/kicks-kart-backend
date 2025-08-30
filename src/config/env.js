@@ -11,7 +11,6 @@ export const env = {
   get CORS_ORIGIN() { return process.env.CORS_ORIGIN || 'http://localhost:5173'; },
   // Require MONGO_URI to be provided via environment; no hardcoded defaults with credentials
   get MONGO_URI() { return process.env.MONGO_URI; },
-  get REDIS_URL() { return process.env.REDIS_URL || 'redis://localhost:6379'; },
   get JWT_ACCESS_SECRET() { return process.env.JWT_ACCESS_SECRET || 'change-me'; },
   get JWT_REFRESH_SECRET() { return process.env.JWT_REFRESH_SECRET || 'change-me-too'; },
   get ACCESS_TOKEN_TTL_MIN() { return parseInt(process.env.ACCESS_TOKEN_TTL_MIN || '15', 10); },

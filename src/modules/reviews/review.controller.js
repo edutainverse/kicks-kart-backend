@@ -1,5 +1,4 @@
 import Review from './review.model.js';
-import { invalidateCache } from '../../middlewares/cache.js';
 
 export async function getReviewsForProduct(req, res, next) {
   try {
@@ -17,10 +16,6 @@ export async function addReview(req, res, next) {
       rating,
       comment
     });
-    
-    // Invalidate reviews cache for this product
-    await invalidateCache([`reviews:*:{"productId":"${req.params.productId}"}*`]);
-    
     res.status(201).json(review);
   } catch (e) { next(e); }
 }

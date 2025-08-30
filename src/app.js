@@ -31,7 +31,6 @@ import wishlistRoutes from './modules/wishlist/wishlist.routes.js';
 import addressRoutes from './modules/address/address.routes.js';
 import userRoutes from './modules/users/user.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
-import cacheRoutes from './modules/admin/cache.routes.js';
 import emailAnalyticsRoutes from './modules/admin/emailAnalytics.routes.js';
 import trackingRoutes from './routes/tracking.routes.js';
 
@@ -113,13 +112,8 @@ app.get('/', (_req, res) => {
   });
 });
 
-app.get('/health', async (_req, res) => {
-  const { isRedisHealthy } = await import('./config/redis.js');
-  res.json({ 
-    ok: true, 
-    mongo: mongoHealthy,
-    redis: isRedisHealthy()
-  });
+app.get('/health', (_req, res) => {
+  res.json({ ok: true });
 });
 
 app.use('/api/track', trackingRoutes);
@@ -146,7 +140,6 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
-app.use('/api/admin/cache', cacheRoutes);
 app.use('/api/admin/email', emailAnalyticsRoutes);
 
 app.use(notFound);
