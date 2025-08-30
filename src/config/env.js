@@ -17,4 +17,10 @@ export const env = {
   get REFRESH_TOKEN_TTL_DAYS() { return parseInt(process.env.REFRESH_TOKEN_TTL_DAYS || '7', 10); },
   get COOKIE_SECURE() { return /^true$/i.test(process.env.COOKIE_SECURE || 'false'); },
   get FAKEPAY_WEBHOOK_SECRET() { return process.env.FAKEPAY_WEBHOOK_SECRET || 'whsec_test_123'; },
+  get SMTP_HOST() { return process.env.SMTP_HOST; },
+  get SMTP_PORT() { return parseInt(process.env.SMTP_PORT || '587', 10); },
+  get SMTP_SECURE() { return process.env.SMTP_SECURE || 'false'; },
+  get SMTP_USER() { return process.env.SMTP_USER; },
+  get SMTP_PASS() { return process.env.SMTP_PASS; },
+  get SMTP_FROM() { return process.env.SMTP_FROM; },
 };
