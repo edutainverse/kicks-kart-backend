@@ -1,4 +1,4 @@
-# Kicks Cart Backend (Express + MongoDB)
+# Kicks Kart Backend (Express + MongoDB)
 
 Single backend for Customer and Admin frontends. ESM, Node 20, JWT auth with refresh cookies, Joi validation, and a fake payments webhook.
 
@@ -37,8 +37,8 @@ npm run seed
 
 API base: http://localhost:4000/api
 
-OpenAPI: `kickscart-openapi.yaml` (root of repo)
-Postman: `kickscart-postman-collection.json`
+OpenAPI: `kickskart-openapi.yaml` (root of repo)
+Postman: `kickskart-postman-collection.json`
 
 ## Scripts
 - dev: nodemon

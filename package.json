@@ -1,7 +1,7 @@
 {
-  "name": "kickscart-backend",
+  "name": "kickskart-backend",
   "version": "1.0.0",
-  "description": "Kicks Cart backend API (Express + MongoDB, ESM)",
+  "description": "Kicks Kart backend API (Express + MongoDB, ESM)",
   "type": "module",
   "main": "src/server.js",
   "scripts": {

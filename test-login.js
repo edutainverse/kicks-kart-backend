@@ -8,7 +8,7 @@ async function testLogin() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: 'user@kickscart.local',
+        email: 'user@kickskart.local',
         password: 'User@123'
       })
     });

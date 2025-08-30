@@ -10,7 +10,7 @@ const admins = [
 ];
 
 // Regular test user
-const testUser = { email: 'user@kickscart.local', name: 'Test User', password: 'User@123', role: 'user' };
+const testUser = { email: 'user@kickskart.local', name: 'Test User', password: 'User@123', role: 'user' };
 
 async function main() {
   loadEnv();

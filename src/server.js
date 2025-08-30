@@ -6,16 +6,18 @@ import logger from './config/logger.js';
 
 async function start() {
   loadEnv();
-  await connect(env.MONGO_URI);
+  await connect(env.MONGO_URI); // Don't throw on error
 
   const server = http.createServer(app);
   server.listen(env.PORT, () => {
     logger.info(`Server listening on http://localhost:${env.PORT}/api`);
+    if (process.env.NODE_ENV !== 'production') {
+      // Import mongoHealthy directly for ES modules
+      import('./db/connect.js').then(({ mongoHealthy }) => {
+        console.log('Server started. Mongo healthy:', mongoHealthy);
+      });
+    }
   });
 }
 
-start().catch((err) => {
-  // eslint-disable-next-line no-console
-  console.error('Fatal startup error', err);
-  process.exit(1);
-});
+start();
