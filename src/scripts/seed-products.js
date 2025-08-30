@@ -31,7 +31,7 @@ async function main() {
       title: `${brand} ${color} ${category.charAt(0).toUpperCase() + category.slice(1)} Shoe ${i}`, 
       description: `Premium ${material.toLowerCase()} ${category} shoe with excellent comfort and style. Perfect for daily wear and sport activities.`, 
       brand: brand, 
-      price: Math.floor(Math.random() * 300) + 50, // Random price between $50-$349
+      price: Math.floor(Math.random() * 300) + 50, // Random price between ₹50-₹349
       images: [], 
       sizes, 
       category: category, 

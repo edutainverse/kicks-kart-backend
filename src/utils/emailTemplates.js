@@ -91,7 +91,7 @@ export function orderPlacedEmailTemplate(name, orderId, items, amount, trackingI
         <strong>Product:</strong> ${item.productId}<br>
         <strong>Size:</strong> ${item.size}<br>
         <strong>Quantity:</strong> ${item.qty}<br>
-        <strong>Price:</strong> $${item.price}
+        <strong>Price:</strong> ₹${item.price}
     </div>
   `).join('');
 
@@ -102,7 +102,7 @@ export function orderPlacedEmailTemplate(name, orderId, items, amount, trackingI
     <div class="order-details">
         <h3>Order Details</h3>
         <p><strong>Order ID:</strong> #${orderId}</p>
-        <p><strong>Total Amount:</strong> $${amount}</p>
+        <p><strong>Total Amount:</strong> ₹${amount}</p>
         <h4>Items Ordered:</h4>
         ${itemsList}
     </div>
@@ -145,7 +145,7 @@ export function paymentSuccessEmailTemplate(name, orderId, amount, trackingId = 
     <div class="order-details">
         <h3>Payment Details</h3>
         <p><strong>Order ID:</strong> #${orderId}</p>
-        <p><strong>Amount Paid:</strong> $${amount}</p>
+        <p><strong>Amount Paid:</strong> ₹${amount}</p>
         <p><strong>Status:</strong> Payment Confirmed</p>
     </div>
     <p>Your order is now being prepared for shipment. You'll receive another email when it ships.</p>

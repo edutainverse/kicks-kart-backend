@@ -13,7 +13,10 @@ function computeTotals(cart) {
 }
 
 export async function getCart(userId) {
-  let cart = await Cart.findOne({ userId });
+  let cart = await Cart.findOne({ userId }).populate({
+    path: 'items.productId',
+    select: 'title brand price images mainImage category active'
+  });
   if (!cart) cart = await Cart.create({ userId, items: [], totals: { subtotal: 0 } });
   return cart;
 }
@@ -21,31 +24,52 @@ export async function getCart(userId) {
 export async function addItem(userId, { productId, size, qty }) {
   const product = await Product.findById(productId).lean();
   if (!product) throw Object.assign(new Error('Product not found'), { status: 404, code: 'NOT_FOUND' });
-  let cart = await getCart(userId);
+  let cart = await Cart.findOne({ userId });
+  if (!cart) cart = await Cart.create({ userId, items: [], totals: { subtotal: 0 } });
   cart.items.push({ productId, size, qty, priceAtAdd: product.price });
   computeTotals(cart);
   await cart.save();
+  
+  // Return cart with populated product details
+  cart = await Cart.findOne({ userId }).populate({
+    path: 'items.productId',
+    select: 'title brand price images mainImage category active'
+  });
   return cart;
 }
 
 export async function updateItem(userId, itemId, { qty }) {
-  const cart = await getCart(userId);
+  const cart = await Cart.findOne({ userId });
+  if (!cart) throw Object.assign(new Error('Cart not found'), { status: 404, code: 'NOT_FOUND' });
   const item = cart.items.id(itemId);
   if (!item) throw Object.assign(new Error('Item not found'), { status: 404, code: 'NOT_FOUND' });
   item.qty = qty;
   computeTotals(cart);
   await cart.save();
-  return cart;
+  
+  // Return cart with populated product details
+  const populatedCart = await Cart.findOne({ userId }).populate({
+    path: 'items.productId',
+    select: 'title brand price images mainImage category active'
+  });
+  return populatedCart;
 }
 
 export async function removeItem(userId, itemId) {
-  const cart = await getCart(userId);
+  const cart = await Cart.findOne({ userId });
+  if (!cart) return await Cart.create({ userId, items: [], totals: { subtotal: 0 } });
   const item = cart.items.id(itemId);
   if (!item) return cart;
   item.deleteOne();
   computeTotals(cart);
   await cart.save();
-  return cart;
+  
+  // Return cart with populated product details
+  const populatedCart = await Cart.findOne({ userId }).populate({
+    path: 'items.productId',
+    select: 'title brand price images mainImage category active'
+  });
+  return populatedCart;
 }
 
 export async function checkout(user, shippingAddress) {
@@ -65,16 +89,16 @@ export async function checkout(user, shippingAddress) {
 
   // Send order confirmation email
   try {
-    const user = await User.findById(user.sub).lean();
-    if (user && user.email) {
-      const { html, trackingId } = orderPlacedEmailTemplate(user.name, order._id, order.items, order.amount);
+    const userData = await User.findById(user.sub).lean();
+    if (userData && userData.email) {
+      const { html, trackingId } = orderPlacedEmailTemplate(userData.name, order._id, order.items, order.amount);
       await sendMail({
-        to: user.email,
+        to: userData.email,
         subject: 'Order Placed - KicksKart',
         html,
         trackingId,
         emailType: 'order-placed',
-        userId: user._id,
+        userId: userData._id,
         metadata: { orderId: order._id.toString(), amount: order.amount.toString() }
       });
     }
