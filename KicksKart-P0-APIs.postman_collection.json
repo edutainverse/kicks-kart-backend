@@ -1,0 +1,65 @@
+{
+  "info": {
+    "_postman_id": "p0-apis-collection-1234",
+    "name": "KicksKart P0 APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Product Reviews",
+      "item": [
+        {
+          "name": "Get Reviews for Product",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "http://localhost:4000/api/reviews/{{productId}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "reviews", "{{productId}}"] }
+          }
+        },
+        {
+          "name": "Add Review to Product",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"rating\": 5,\n  \"comment\": \"Great product!\"\n}" },
+            "url": { "raw": "http://localhost:4000/api/reviews/{{productId}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "reviews", "{{productId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "item": [
+        { "name": "List Categories", "request": { "method": "GET", "url": { "raw": "http://localhost:4000/api/categories/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "categories", ""] } } },
+        { "name": "Get Category", "request": { "method": "GET", "url": { "raw": "http://localhost:4000/api/categories/{{id}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "categories", "{{id}}"] } } },
+        { "name": "Create Category", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Shoes\",\n  \"slug\": \"shoes\",\n  \"description\": \"All shoes\"\n}" }, "url": { "raw": "http://localhost:4000/api/categories/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "categories", ""] } } },
+        { "name": "Update Category", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"name\": \"Updated Shoes\"\n}" }, "url": { "raw": "http://localhost:4000/api/categories/{{id}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "categories", "{{id}}"] } } },
+        { "name": "Delete Category", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}", "type": "text" } ], "url": { "raw": "http://localhost:4000/api/categories/{{id}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "categories", "{{id}}"] } } }
+      ]
+    },
+    {
+      "name": "Wishlist",
+      "item": [
+        { "name": "Get Wishlist", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "http://localhost:4000/api/wishlist/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "wishlist", ""] } } },
+        { "name": "Add to Wishlist", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"productId\": \"{{productId}}\"\n}" }, "url": { "raw": "http://localhost:4000/api/wishlist/add", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "wishlist", "add"] } } },
+        { "name": "Remove from Wishlist", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"productId\": \"{{productId}}\"\n}" }, "url": { "raw": "http://localhost:4000/api/wishlist/remove", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "wishlist", "remove"] } } }
+      ]
+    },
+    {
+      "name": "Address Book",
+      "item": [
+        { "name": "Get Addresses", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "http://localhost:4000/api/address/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "address", ""] } } },
+        { "name": "Add Address", "request": { "method": "POST", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"line1\": \"123 Main St\",\n  \"city\": \"Metropolis\",\n  \"zip\": \"12345\"\n}" }, "url": { "raw": "http://localhost:4000/api/address/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "address", ""] } } },
+        { "name": "Update Address", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"city\": \"Gotham\"\n}" }, "url": { "raw": "http://localhost:4000/api/address/{{addressId}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "address", "{{addressId}}"] } } },
+        { "name": "Delete Address", "request": { "method": "DELETE", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "http://localhost:4000/api/address/{{addressId}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "address", "{{addressId}}"] } } }
+      ]
+    },
+    {
+      "name": "User Profile",
+      "item": [
+        { "name": "Get My Profile", "request": { "method": "GET", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" } ], "url": { "raw": "http://localhost:4000/api/users/me", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "users", "me"] } } },
+        { "name": "Update My Profile", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"name\": \"New Name\"\n}" }, "url": { "raw": "http://localhost:4000/api/users/me", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "users", "me"] } } },
+        { "name": "Change Password", "request": { "method": "PUT", "header": [ { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }, { "key": "Content-Type", "value": "application/json", "type": "text" } ], "body": { "mode": "raw", "raw": "{\n  \"oldPassword\": \"oldpass\",\n  \"newPassword\": \"newpass\"\n}" }, "url": { "raw": "http://localhost:4000/api/users/me/password", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "users", "me", "password"] } } }
+      ]
+    }
+  ]
+}

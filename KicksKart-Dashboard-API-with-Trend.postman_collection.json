@@ -1,0 +1,57 @@
+{
+  "info": {
+    "_postman_id": "f1e1c1e2-1234-4567-89ab-abcdef123456",
+    "name": "KicksKart Dashboard API (with Orders Trend)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get Dashboard Stats",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "http://localhost:4000/api/dashboard/stats",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "dashboard", "stats"]
+        }
+      }
+    },
+    {
+      "name": "Get Recent Activity",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "http://localhost:4000/api/dashboard/recent-activity",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "dashboard", "recent-activity"]
+        }
+      }
+    },
+    {
+      "name": "Get Orders Trend",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": {
+          "raw": "http://localhost:4000/api/dashboard/orders-trend",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "4000",
+          "path": ["api", "dashboard", "orders-trend"]
+        }
+      }
+    }
+  ]
+}

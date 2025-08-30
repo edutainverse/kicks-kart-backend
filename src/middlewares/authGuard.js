@@ -8,7 +8,7 @@ export function authGuard(req, _res, next) {
     const payload = verifyAccess(token);
     req.user = payload;
     next();
-  } catch (e) {
+  } catch {
     next({ status: 401, code: 'AUTH_ERROR', message: 'Invalid or expired token' });
   }
 }

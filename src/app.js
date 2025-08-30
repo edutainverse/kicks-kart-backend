@@ -14,6 +14,14 @@ import productRoutes from './modules/products/product.routes.js';
 import cartRoutes from './modules/cart/cart.routes.js';
 import orderRoutes from './modules/orders/order.routes.js';
 import paymentRoutes from './modules/payments/payments.routes.js';
+
+import dashboardRoutes from './modules/dashboard/dashboard.routes.js';
+
+import reviewRoutes from './modules/reviews/review.routes.js';
+import categoryRoutes from './modules/categories/category.routes.js';
+import wishlistRoutes from './modules/wishlist/wishlist.routes.js';
+import addressRoutes from './modules/address/address.routes.js';
+import userRoutes from './modules/users/user.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
 
 const app = express();
@@ -27,6 +35,20 @@ app.use(
   })
 );
 
+// Handle JSON parsing errors
+app.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({
+      error: {
+        code: 'VALIDATION_ERROR',
+        message: 'Invalid JSON format',
+        details: []
+      }
+    });
+  }
+  next(err);
+});
+
 app.use(helmet());
 app.use(cors(corsOptions));
 app.use(cookieParser());
@@ -37,6 +59,14 @@ app.get('/health', (_req, res) => {
   res.json({ ok: true });
 });
 
+
+app.use('/api/dashboard', dashboardRoutes);
+
+app.use('/api/reviews', reviewRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/address', addressRoutes);
+app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);

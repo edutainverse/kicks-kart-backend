@@ -17,7 +17,7 @@ export function verifySignature(rawBodyBuffer, header, secret) {
     const b = Buffer.from(digest, 'hex');
     if (a.length !== b.length) return false;
     return crypto.timingSafeEqual(a, b);
-  } catch (_e) {
+  } catch {
     return false;
   }
 }

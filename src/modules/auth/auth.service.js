@@ -23,8 +23,9 @@ export async function signup({ name, email, password }) {
   }
   const passwordHash = await hashPassword(password);
   const user = await User.create({ name, email, passwordHash, role: 'user' });
-  const { passwordHash: _, ...safe } = user.toObject();
-  return safe;
+  const obj = user.toObject();
+  delete obj.passwordHash;
+  return obj;
 }
 
 export async function login({ email, password }, res) {
@@ -37,7 +38,10 @@ export async function login({ email, password }, res) {
   const accessToken = signAccess(payload);
   const refreshToken = signRefresh(payload);
   res.cookie('refresh_token', refreshToken, cookieOptions());
-  return { accessToken };
+  // Return profile along with token
+  const profile = user.toObject();
+  delete profile.passwordHash;
+  return { accessToken, profile };
 }
 
 export async function refresh(req, res) {
@@ -47,7 +51,7 @@ export async function refresh(req, res) {
     const payload = verifyRefresh(token);
     const accessToken = signAccess({ sub: payload.sub, role: payload.role, name: payload.name, email: payload.email });
     return { accessToken };
-  } catch (_e) {
+  } catch {
     throw Object.assign(new Error('Invalid refresh token'), { status: 401, code: 'AUTH_ERROR' });
   }
 }

@@ -4,11 +4,7 @@ import User from '../modules/users/user.model.js';
 import { hashPassword } from '../utils/crypto.js';
 
 const baseEmails = [
-  'slikeqa@gmail.com',
   'nvnjwl@gmail.com',
-  'admin@edutainverse.com',
-  'admin@kickskart.com',
-  'admin@kickscart.local',
 ];
 
 async function main() {
@@ -16,19 +12,34 @@ async function main() {
   await connect(env.MONGO_URI);
   const passwordHash = await hashPassword('passsword123');
 
-  // Upsert the five base users (keep existing role if present, default to 'user')
+  // Upsert the five base users (preserve existing role and password if user already exists)
+  // This prevents accidentally changing admin passwords seeded elsewhere.
   for (const email of baseEmails) {
-    const existing = await User.findOne({ email });
-    const role = existing?.role || 'user';
-    const update = { name: email.split('@')[0], email, role, passwordHash };
-    await User.updateOne({ email }, { $set: update }, { upsert: true });
+    const name = email.split('@')[0];
+    await User.updateOne(
+      { email },
+      {
+        $set: { name },
+        $setOnInsert: { email, role: 'user', passwordHash },
+      },
+      { upsert: true }
+    );
   }
 
   // Create user1..user50
   const bulk = [];
   for (let i = 1; i <= 50; i++) {
     const email = `user${i}@gmail.com`;
-    bulk.push({ updateOne: { filter: { email }, update: { $set: { name: `user${i}`, email, role: 'user', passwordHash } }, upsert: true } });
+    bulk.push({
+      updateOne: {
+        filter: { email },
+        update: {
+          $set: { name: `user${i}` },
+          $setOnInsert: { email, role: 'user', passwordHash },
+        },
+        upsert: true,
+      },
+    });
   }
   if (bulk.length) await User.bulkWrite(bulk);
 

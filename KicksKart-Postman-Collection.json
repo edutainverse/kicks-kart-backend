@@ -1,0 +1,69 @@
+{
+  "info": {
+    "_postman_id": "f1e1c1e2-1234-4567-89ab-abcdef123456",
+    "name": "KicksKart Cart, Checkout, Payment, Orders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "View Cart",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": { "raw": "http://localhost:4000/api/cart/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "cart", ""] }
+      }
+    },
+    {
+      "name": "Checkout Cart",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+          { "key": "Content-Type", "value": "application/json", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"shippingAddress\": {\n    \"line1\": \"123 Main St\",\n    \"city\": \"Metropolis\",\n    \"zip\": \"12345\"\n  }\n}"
+        },
+        "url": { "raw": "http://localhost:4000/api/cart/checkout", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "cart", "checkout"] }
+      }
+    },
+    {
+      "name": "Fake Payment (Mark Order Paid)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" },
+          { "key": "Content-Type", "value": "application/json", "type": "text" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"paymentIntentId\": \"{{paymentIntentId}}\"\n}"
+        },
+        "url": { "raw": "http://localhost:4000/api/payments/fakepay", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "payments", "fakepay"] }
+      }
+    },
+    {
+      "name": "List My Orders",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": { "raw": "http://localhost:4000/api/orders/", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "orders", ""] }
+      }
+    },
+    {
+      "name": "Get Order By ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}", "type": "text" }
+        ],
+        "url": { "raw": "http://localhost:4000/api/orders/{{orderId}}", "protocol": "http", "host": ["localhost"], "port": "4000", "path": ["api", "orders", "{{orderId}}"] }
+      }
+    }
+  ]
+}

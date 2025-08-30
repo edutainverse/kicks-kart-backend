@@ -10,3 +10,16 @@ export async function postWebhook(req, res, next) {
     next(e);
   }
 }
+
+// Fake payment endpoint for testing (no real money involved)
+export async function fakePay(req, res, next) {
+  try {
+    // expects { paymentIntentId } in body
+    const { paymentIntentId } = req.body;
+    if (!paymentIntentId) return next({ status: 400, message: 'paymentIntentId required' });
+    const result = await processOutcome({ paymentIntentId, outcome: 'succeeded' });
+    ok(res, result);
+  } catch (e) {
+    next(e);
+  }
+}

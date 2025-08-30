@@ -9,10 +9,12 @@
     "start": "node src/server.js",
     "test": "jest --runInBand",
     "seed": "node src/scripts/seed.js",
-  "seed:admins": "node src/scripts/seed-admins.js",
-  "seed:users": "node src/scripts/seed-users.js",
-  "seed:inventory": "node src/scripts/seed-inventory.js",
-  "seed:orders": "node src/scripts/seed-orders.js",
+    "seed:products": "node src/scripts/seed-products.js",
+    "seed:admins": "node src/scripts/seed-admins.js",
+    "seed:users": "node src/scripts/seed-users.js",
+    "seed:inventory": "node src/scripts/seed-inventory.js",
+    "seed:orders": "node src/scripts/seed-orders.js",
+    "seed:carts": "node src/scripts/seed-carts.js",
     "lint": "eslint .",
     "format": "prettier -w ."
   },
@@ -30,9 +32,11 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.6.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.13.0",
     "eslint": "^9.9.0",
     "jest": "^29.7.0",
     "nodemon": "^3.1.4",
