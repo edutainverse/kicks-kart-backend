@@ -4,9 +4,14 @@ import { roleGuard } from '../../middlewares/roleGuard.js';
 import { createProduct, deleteProduct, getOrders, getStats, getUsers, listProducts, patchInventory, patchOrder, patchUser, updateProduct } from './admin.controller.js';
 import { validate } from '../../middlewares/validate.js';
 import { AdminSchemas } from './admin.dto.js';
+import { getRecentActivity, getOrdersTrend } from '../dashboard/dashboard.controller.js';
 
 const router = Router();
 router.use(authGuard, roleGuard('admin'));
+
+// Aliases for dashboard analytics under /api/admin
+router.get('/recent-activity', getRecentActivity);
+router.get('/orders-trend', getOrdersTrend);
 
 router.get('/stats', getStats);
 router.get('/users', getUsers);

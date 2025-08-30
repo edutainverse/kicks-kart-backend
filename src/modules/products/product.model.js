@@ -7,7 +7,8 @@ const ProductSchema = new mongoose.Schema(
     description: { type: String },
     brand: { type: String },
     price: { type: Number, required: true },
-    images: [{ type: String }],
+    mainImage: { type: String }, // Primary product image
+    images: [{ type: String }],  // Gallery images (includes mainImage as first)
     sizes: [{ type: String }],
     category: {
       type: String,

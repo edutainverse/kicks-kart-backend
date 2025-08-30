@@ -1,3 +1,6 @@
+export async function getLatestOrder(userId) {
+  return Order.findOne({ userId }).sort({ createdAt: -1 }).lean();
+}
 import Order from './order.model.js';
 
 import User from '../users/user.model.js';

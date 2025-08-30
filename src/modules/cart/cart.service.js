@@ -2,6 +2,9 @@ import Cart from './cart.model.js';
 import Product from '../products/product.model.js';
 import Order from '../orders/order.model.js';
 import { createPaymentIntent } from '../payments/payments.service.js';
+import User from '../users/user.model.js';
+import { sendMail } from '../../utils/mailer.js';
+import { orderPlacedEmailTemplate } from '../../utils/emailTemplates.js';
 
 function computeTotals(cart) {
   const subtotal = cart.items.reduce((sum, it) => sum + it.qty * it.priceAtAdd, 0);
@@ -59,6 +62,26 @@ export async function checkout(user, shippingAddress) {
   const intent = await createPaymentIntent({ orderId: order._id.toString(), amount: order.amount });
   order.paymentIntentId = intent._id;
   await order.save();
+
+  // Send order confirmation email
+  try {
+    const user = await User.findById(user.sub).lean();
+    if (user && user.email) {
+      const { html, trackingId } = orderPlacedEmailTemplate(user.name, order._id, order.items, order.amount);
+      await sendMail({
+        to: user.email,
+        subject: 'Order Placed - KicksKart',
+        html,
+        trackingId,
+        emailType: 'order-placed',
+        userId: user._id,
+        metadata: { orderId: order._id.toString(), amount: order.amount.toString() }
+      });
+    }
+  } catch (e) {
+    console.error('Failed to send order confirmation email:', e);
+  }
+
   return { orderId: order._id.toString(), clientSecret: intent.clientSecret };
 }
 

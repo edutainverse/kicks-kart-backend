@@ -2,6 +2,8 @@ import User from '../users/user.model.js';
 import { hashPassword, comparePassword } from '../../utils/crypto.js';
 import { signAccess, signRefresh, verifyRefresh } from '../../utils/jwt.js';
 import { env } from '../../config/env.js';
+import { sendMail } from '../../utils/mailer.js';
+import { welcomeEmailTemplate } from '../../utils/emailTemplates.js';
 
 function cookieOptions() {
   return {
@@ -23,6 +25,22 @@ export async function signup({ name, email, password }) {
   }
   const passwordHash = await hashPassword(password);
   const user = await User.create({ name, email, passwordHash, role: 'user' });
+  // Send welcome email
+  try {
+    const { html, trackingId } = welcomeEmailTemplate(name);
+    await sendMail({
+      to: email,
+      subject: 'Welcome to KicksKart!',
+      html,
+      trackingId,
+      emailType: 'welcome',
+      userId: user._id,
+      metadata: { name }
+    });
+  } catch (e) {
+    // Log but don't block signup
+    console.error('Failed to send welcome email:', e);
+  }
   const obj = user.toObject();
   delete obj.passwordHash;
   return obj;

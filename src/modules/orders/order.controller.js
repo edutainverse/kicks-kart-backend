@@ -1,3 +1,10 @@
+export async function getLatestOrder(req, res, next) {
+  try {
+    const data = await service.getLatestOrder(req.user.sub);
+    if (!data) return next({ status: 404, code: 'NOT_FOUND', message: 'No orders found' });
+    ok(res, data);
+  } catch (e) { next(e); }
+}
 import { ok } from '../../utils/http.js';
 import * as service from './order.service.js';
 

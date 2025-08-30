@@ -24,6 +24,8 @@ import wishlistRoutes from './modules/wishlist/wishlist.routes.js';
 import addressRoutes from './modules/address/address.routes.js';
 import userRoutes from './modules/users/user.routes.js';
 import adminRoutes from './modules/admin/admin.routes.js';
+import emailAnalyticsRoutes from './modules/admin/emailAnalytics.routes.js';
+import trackingRoutes from './routes/tracking.routes.js';
 
 const app = express();
 
@@ -71,6 +73,7 @@ app.get('/health', (_req, res) => {
   res.json({ ok: true });
 });
 
+app.use('/api/track', trackingRoutes);
 
 app.use('/api/dashboard', dashboardRoutes);
 
@@ -94,6 +97,7 @@ app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/admin/email', emailAnalyticsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

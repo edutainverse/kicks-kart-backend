@@ -15,6 +15,7 @@
     "seed:inventory": "node src/scripts/seed-inventory.js",
     "seed:orders": "node src/scripts/seed-orders.js",
     "seed:carts": "node src/scripts/seed-carts.js",
+    "update:images": "node update-product-images.js",
     "lint": "eslint .",
     "format": "prettier -w ."
   },
